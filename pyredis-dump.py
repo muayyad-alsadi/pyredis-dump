@@ -3,6 +3,7 @@
 import time
 import optparse
 import ast
+import re
 from redis import StrictRedis as Redis
 
 class RedisDump(Redis):
@@ -99,6 +100,13 @@ def restore(filename, use_ttl=True, bulk_size=1000, **kw):
   with open(filename, "r+") as infile:
     r.restore(infile)
 
+db_re=re.compile(r'db\d+')
+
+def dblist(**kw):
+  r=Redis(**kw)
+  for i in sorted(filter( lambda k: db_re.match(k), r.info().keys() )):
+    print(i.replace("db", ""))
+
 def options2kw(options):
   kw={'db':options.db}
   if options.socket: kw['unix_socket_path']=options.socket
@@ -111,7 +119,7 @@ def options2kw(options):
 def main():
   host = 'localhost'
   db = 0
-  parser = optparse.OptionParser(usage="usage: %prog [options] dump|restore|list")
+  parser = optparse.OptionParser(usage="usage: %prog [options] dump|restore|dblist")
   parser.add_option('-H', '--host', help='connect to HOST (default localhost)', default='localhost')
   parser.add_option('-P', '--port', help='connect to PORT (default 6379)', default=6379, type="int")
   parser.add_option('-s', '--socket', help='connect to SOCKET')
@@ -140,6 +148,11 @@ def main():
     print("restore from %r" % options.infile)
     print("connecting to %r" % kw)
     restore(options.infile, use_ttl=options.use_ttl, bulk_size=options.bulk, **kw)
+  elif mode=='dblist':
+    dblist(**kw)
+  else:
+    parser.print_help()
+    parser.error("unknown mode %r" % mode)
 
 if __name__=='__main__':
   main()
