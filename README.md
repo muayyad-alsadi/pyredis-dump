@@ -24,8 +24,10 @@ Use python3 for restoring dumps taken using python3
 ## Basic usage
 
 ```
-pyredis-dump.py -h
-pyredis-dump.py dump -o outfile.pyredis
-pyredis-dump.py restore -i outfile.pyredis
+python3 pyredis-dump.py -h
+python3 pyredis-dump.py dblist
+python3 pyredis-dump.py dump -o outfile.py3redis
+python3 pyredis-dump.py restore -i outfile.py3redis
 ```
+
 
