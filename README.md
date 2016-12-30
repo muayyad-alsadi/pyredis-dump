@@ -13,9 +13,13 @@ and loads data from such dump files back into Redis.
 - Dumps TTL and expiration times;
 - Can load TTL OR original expiration time for expiring keys;
 - Dumps are human readable
-- Dumps are lines
-- 
+- Dumps are line-aligned (can be streamed)
 - Can be used as a module in a larger program or as a standalone utility
+
+## Python 2/3 Compatability
+
+Use python2 for restoring dumps taken using python2
+Use python3 for restoring dumps taken using python3
 
 ## Basic usage
 

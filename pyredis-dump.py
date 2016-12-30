@@ -23,11 +23,11 @@ class RedisDump(Redis):
       p.pttl(key)
     else:
       p.ttl(key)
-    if type=='string': p.get(key)
-    elif type=='list': p.lrange(key, 0, -1)
-    elif type=='set':  p.smembers(key)
-    elif type=='zset': p.zrange(key, 0, -1, False, True)
-    elif type=='hash': p.hgetall(key)
+    if type==b'string': p.get(key)
+    elif type==b'list': p.lrange(key, 0, -1)
+    elif type==b'set':  p.smembers(key)
+    elif type==b'zset': p.zrange(key, 0, -1, False, True)
+    elif type==b'hash': p.hgetall(key)
     else: raise TypeError('Unknown type=%r' % type)
     type2, ttl, value = p.execute()
     if self._have_pttl and ttl>0:
@@ -49,18 +49,18 @@ class RedisDump(Redis):
 
   def set_one(self, p, use_ttl, key_type, key, ttl, expire_at, value):
     p.delete(key)
-    if key_type=='string':
+    if key_type==b'string':
       p.set(key, value)
-    elif key_type=='list':
+    elif key_type==b'list':
       for element in value:
         p.rpush(key, element)
-    elif key_type=='set':
+    elif key_type==b'set':
       for element in value:
         p.sadd(key, element)
-    elif key_type=='zset':
+    elif key_type==b'zset':
       for element, score in value:
         p.zadd(key, score, element)
-    elif key_type=='hash':
+    elif key_type==b'hash':
       p.hmset(key, value)
     else: raise TypeError('Unknown type=%r' % type)
     if ttl<=0: return
