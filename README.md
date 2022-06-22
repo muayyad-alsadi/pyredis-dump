@@ -14,6 +14,8 @@ and loads data from such dump files back into Redis.
 - Can load TTL OR original expiration time for expiring keys;
 - Dumps are human readable
 - Dumps are line-aligned (can be streamed)
+- SSL support
+- Can load options from a INI configuration file
 - Can be used as a module in a larger program or as a standalone utility
 
 ## Python 2/3 Compatability
@@ -23,11 +25,16 @@ Use python3 for restoring dumps taken using python3
 
 ## Basic usage
 
-```
-python3 pyredis-dump.py -h
-python3 pyredis-dump.py dblist
-python3 pyredis-dump.py dump -o outfile.py3redis
-python3 pyredis-dump.py restore -i outfile.py3redis
-```
+```bash
+# From the command-line
+$ python3 pyredis-dump.py -h
+$ python3 pyredis-dump.py dblist
+$ python3 pyredis-dump.py dump -o outfile.py3redis
+$ python3 pyredis-dump.py restore -i outfile.py3redis
+$ python3 pyredis-dump.py dblist --ssl -H my.host -P SECRET
 
-
+# Using a configuration file
+$ python3 pyredis-dump.py dblist -c config.ini
+$ python3 pyredis-dump.py dump -c config.ini
+$ python3 pyredis-dump.py restore -c config.ini
+```
