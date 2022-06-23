@@ -32,3 +32,5 @@ COPY --chown=$USER_NAME:$GROUP_NAME . .
 USER $USER_NAME
 
 ENV PATH="$APP_ROOT/venv/bin:$PATH"
+
+ENTRYPOINT ["python", "pyredis-dump.py"]

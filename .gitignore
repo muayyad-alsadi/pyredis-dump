@@ -19,6 +19,10 @@
 ### INI ###
 *.ini
 
+### Dumps ###
+*.dump
+*.outfile
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
